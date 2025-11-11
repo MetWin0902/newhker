@@ -1,4 +1,14 @@
+# ===== Java 编译产物 =====
+*.class
+*.jar
+
+# ===== Maven 构建目录 =====
+target/
 */target/
+**/target/
+
+# ===== IDE 配置文件 =====
+# IntelliJ IDEA
 .idea/
 *.DS_Store
 */.gradle/
@@ -13,4 +23,13 @@
 */.bazel-
 */.bazel-cache/
 */.bazel-testlogs/
+
+# VS Code
 .vscode/
+
+# ===== 日志文件 =====
+logs/
+*.log
+
+# ===== 项目文档 =====
+CLAUDE.md
