@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.newhker.common.PageResult;
 import com.newhker.dto.BannerDTO;
 import com.newhker.entity.Banner;
+import com.newhker.vo.AdminBannerVO;
 import com.newhker.exception.BusinessException;
 import com.newhker.mapper.BannerMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Banner Service
@@ -39,14 +41,35 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
     /**
      * 分页查询Banner列表（管理端）
      */
-    public PageResult<Banner> getBannerPage(Integer pageNum, Integer pageSize) {
+    public PageResult<AdminBannerVO> getBannerPage(Integer pageNum, Integer pageSize) {
         Page<Banner> page = new Page<>(pageNum, pageSize);
         LambdaQueryWrapper<Banner> wrapper = new LambdaQueryWrapper<>();
         wrapper.orderByAsc(Banner::getSortOrder)
                 .orderByDesc(Banner::getCreateTime);
         
         IPage<Banner> result = page(page, wrapper);
-        return new PageResult<>(result.getTotal(), result.getRecords());
+        
+        List<AdminBannerVO> voList = result.getRecords().stream().map(banner -> {
+            AdminBannerVO vo = new AdminBannerVO();
+            BeanUtils.copyProperties(banner, vo);
+            return vo;
+        }).collect(Collectors.toList());
+        
+        return new PageResult<>(result.getTotal(), voList);
+    }
+    
+    /**
+     * 获取Banner详情（管理端）
+     */
+    public AdminBannerVO getBannerByIdForAdmin(Long bannerId) {
+        Banner banner = getById(bannerId);
+        if (banner == null) {
+            throw new BusinessException("Banner不存在");
+        }
+        
+        AdminBannerVO vo = new AdminBannerVO();
+        BeanUtils.copyProperties(banner, vo);
+        return vo;
     }
     
     /**

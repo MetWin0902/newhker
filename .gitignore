@@ -1,0 +1,16 @@
+*/target/
+.idea/
+*.DS_Store
+*/.gradle/
+*/build/
+*/.mypy_cache/
+*/__pycache__/
+*/.venv/
+*/.tox/
+*/.nox/
+*/.buckd/
+*/.pants.d/
+*/.bazel-
+*/.bazel-cache/
+*/.bazel-testlogs/
+.vscode/

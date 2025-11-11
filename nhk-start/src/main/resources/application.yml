@@ -70,3 +70,13 @@ logging:
     com.newhker.mapper: debug
   pattern:
     console: '%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{50} - %msg%n'
+
+# Springdoc OpenAPI (Swagger-UI) 配置
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  show-actuator: false
+  api-docs-enabled: true

@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.newhker.dto.ModuleDTO;
 import com.newhker.entity.Module;
 import com.newhker.mapper.ModuleMapper;
+import com.newhker.vo.AdminModuleVO;
 import com.newhker.vo.ModuleTreeVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +21,34 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class ModuleService extends ServiceImpl<ModuleMapper, Module> {
+    
+    /**
+     * 获取所有模块列表（管理端）
+     */
+    public List<AdminModuleVO> getModuleListForAdmin() {
+        // ... existing code ...
+        List<Module> allModules = list();
+        
+        return allModules.stream().map(module -> {
+            AdminModuleVO vo = new AdminModuleVO();
+            BeanUtils.copyProperties(module, vo);
+            return vo;
+        }).collect(Collectors.toList());
+    }
+    
+    /**
+     * 获取模块详情（管理端）
+     */
+    public AdminModuleVO getModuleByIdForAdmin(Long moduleId) {
+        Module module = getById(moduleId);
+        if (module == null) {
+            throw new com.newhker.exception.BusinessException("模块不存在");
+        }
+        
+        AdminModuleVO vo = new AdminModuleVO();
+        BeanUtils.copyProperties(module, vo);
+        return vo;
+    }
     
     /**
      * 获取模块树形结构

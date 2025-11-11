@@ -13,6 +13,7 @@ import com.newhker.entity.UserCollect;
 import com.newhker.entity.UserLike;
 import com.newhker.exception.BusinessException;
 import com.newhker.mapper.ArticleMapper;
+import com.newhker.vo.AdminArticleVO;
 import com.newhker.vo.ArticleDetailVO;
 import com.newhker.vo.ArticleListVO;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +52,7 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
     /**
      * 分页查询文章列表（管理端）
      */
-    public PageResult<Article> getArticlePageForAdmin(ArticleQueryDTO query) {
+    public PageResult<AdminArticleVO> getArticlePageForAdmin(ArticleQueryDTO query) {
         Page<Article> page = new Page<>(query.getPageNum(), query.getPageSize());
         LambdaQueryWrapper<Article> wrapper = new LambdaQueryWrapper<>();
         
@@ -74,7 +75,14 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
         wrapper.orderByDesc(Article::getCreateTime);
         
         IPage<Article> result = page(page, wrapper);
-        return new PageResult<>(result.getTotal(), result.getRecords());
+        
+        List<AdminArticleVO> voList = result.getRecords().stream().map(article -> {
+            AdminArticleVO vo = new AdminArticleVO();
+            BeanUtils.copyProperties(article, vo);
+            return vo;
+        }).collect(Collectors.toList());
+        
+        return new PageResult<>(result.getTotal(), voList);
     }
     
     /**
@@ -111,7 +119,21 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
     }
     
     /**
-     * 获取文章详情
+     * 获取文章详情（管理端）
+     */
+    public AdminArticleVO getArticleByIdForAdmin(Long articleId) {
+        Article article = getById(articleId);
+        if (article == null) {
+            throw new BusinessException("文章不存在");
+        }
+        
+        AdminArticleVO vo = new AdminArticleVO();
+        BeanUtils.copyProperties(article, vo);
+        return vo;
+    }
+    
+    /**
+     * 获取文章详情（小程序端）
      */
     public ArticleDetailVO getArticleDetail(Long articleId, Long userId) {
         Article article = getById(articleId);
