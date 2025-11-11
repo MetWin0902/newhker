@@ -1,0 +1,61 @@
+services:
+  newhker:
+    image: ccr.ccs.tencentyun.com/ns_newhker/newhker:v1.0
+    container_name: newhker
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config:/app/config
+      - ./logs:/app/logs
+    restart: always
+    pull_policy: always
+    networks:
+      - webnet
+
+  nginx:
+    image: ccr.ccs.tencentyun.com/ns_newhker/nginx:v1.0
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl/luck2025.xyz.crt:/etc/nginx/luck2025.xyz.crt
+      - ./nginx/ssl/luck2025.xyz.key:/etc/nginx/luck2025.xyz.key
+      - ./nginx/ssl/luck2025.xyz.pem:/etc/nginx/luck2025.xyz.pem
+    restart: always
+    networks:
+      - webnet
+
+  mysql:
+    image: ccr.ccs.tencentyun.com/ns_newhker/mysql:v1.0
+    container_name: mysql
+    environment:
+    - MYSQL_DATABASE=newhker
+    - MYSQL_USER=newhker_user
+    - MYSQL_PASSWORD=newhker6655
+    - MYSQL_ROOT_PASSWORD=root6655
+    - TZ=Asia/Shanghai
+    networks:
+    - webnet
+    ports:
+    - 3306:3306
+    restart: always
+    volumes:
+    - /home/data/mysql:/var/lib/mysql
+#    - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  redis:
+    container_name: redis
+    image: ccr.ccs.tencentyun.com/ns_newhker/redis:v1.0
+    networks:
+    - webnet
+    ports:
+    - 6379:6379
+    restart: always
+    volumes:
+    - /home/data/redis:/data
+
+networks:
+  webnet:
+    driver: bridge
