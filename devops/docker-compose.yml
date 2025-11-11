@@ -1,9 +1,9 @@
 services:
   newhker:
-    image: ccr.ccs.tencentyun.com/ns_newhker/newhker:v1.0
+    image: ccr.ccs.tencentyun.com/hk-namespace/newhker:v1.0
     container_name: newhker
     ports:
-      - "8080:8080"
+      - "8081:8081"
     volumes:
       - ./config:/app/config
       - ./logs:/app/logs
@@ -13,7 +13,7 @@ services:
       - webnet
 
   nginx:
-    image: ccr.ccs.tencentyun.com/ns_newhker/nginx:v1.0
+    image: ccr.ccs.tencentyun.com/hk-namespace/nginx:v1.0
     container_name: nginx
     ports:
       - "80:80"
@@ -28,7 +28,7 @@ services:
       - webnet
 
   mysql:
-    image: ccr.ccs.tencentyun.com/ns_newhker/mysql:v1.0
+    image: ccr.ccs.tencentyun.com/hk-namespace/mysql:v1.0
     container_name: mysql
     environment:
     - MYSQL_DATABASE=newhker
@@ -47,7 +47,7 @@ services:
 
   redis:
     container_name: redis
-    image: ccr.ccs.tencentyun.com/ns_newhker/redis:v1.0
+    image: ccr.ccs.tencentyun.com/hk-namespace/redis:v1.0
     networks:
     - webnet
     ports:

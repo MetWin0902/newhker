@@ -6,7 +6,7 @@ PROJECT_ROOT := $(shell pwd)
 # 镜像仓库地址
 REGISTRY := ccr.ccs.tencentyun.com
 # 项目名称/命名空间
-PROJECT_NAMESPACE := ns_newhker
+PROJECT_NAMESPACE := hk-namespace
 # 服务名称
 SERVICE_NAME := newhker
 
@@ -23,8 +23,8 @@ MAVEN := $(shell which mvn 2>/dev/null || echo "/Applications/IntelliJ\ IDEA.app
 IMAGE_NAME := $(REGISTRY)/$(PROJECT_NAMESPACE)/$(SERVICE_NAME):$(VERSION)
 
 # Docker 登录凭证
-DOCKER_USERNAME := 100031301327
-DOCKER_PASSWORD := 123qweasdzxc
+DOCKER_USERNAME := 100044967466
+DOCKER_PASSWORD := newhk@123
 
 # ===== 主要命令 =====
 .PHONY: all help clean package docker-login docker-build rm-image docker-push
