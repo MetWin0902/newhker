@@ -11,14 +11,14 @@ spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://110.40.129.141:3306/newhker?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
+    url: jdbc:mysql://42.192.39.44:3306/newhker?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
-    password: yskj2407
-  
+    password: root6655
+
   # Redis配置
   data:
     redis:
-      host: 110.40.129.141
+      host: 42.192.39.44
       port: 6379
       password: 
       database: 0
@@ -80,3 +80,4 @@ springdoc:
     enabled: true
   show-actuator: false
   api-docs-enabled: true
+

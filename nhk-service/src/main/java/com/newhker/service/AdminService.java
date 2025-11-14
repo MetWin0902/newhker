@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.newhker.dto.AdminLoginDTO;
 import com.newhker.entity.Admin;
 import com.newhker.exception.BusinessException;
+import com.newhker.i18n.I18nUtil;
 import com.newhker.mapper.AdminMapper;
 import com.newhker.utils.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -35,17 +36,17 @@ public class AdminService extends ServiceImpl<AdminMapper, Admin> {
         Admin admin = getOne(wrapper);
         
         if (admin == null) {
-            throw new BusinessException("用户名或密码错误");
+            throw new BusinessException(I18nUtil.getMessage("i18n.auth.invalidCredentials"));
         }
         
         // 验证密码
         if (!BCrypt.checkpw(dto.getPassword(), admin.getPassword())) {
-            throw new BusinessException("用户名或密码错误");
+            throw new BusinessException(I18nUtil.getMessage("i18n.auth.invalidCredentials"));
         }
         
         // 检查状态
         if (admin.getStatus() == 1) {
-            throw new BusinessException("账号已被禁用");
+            throw new BusinessException(I18nUtil.getMessage("i18n.auth.accountDisabled"));
         }
         
         // 生成token
@@ -66,7 +67,7 @@ public class AdminService extends ServiceImpl<AdminMapper, Admin> {
         LambdaQueryWrapper<Admin> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(Admin::getUsername, admin.getUsername());
         if (count(wrapper) > 0) {
-            throw new BusinessException("用户名已存在");
+            throw new BusinessException(I18nUtil.getMessage("i18n.auth.usernameTaken"));
         }
         
         // 密码加密

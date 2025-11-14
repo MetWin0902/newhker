@@ -9,6 +9,7 @@ import com.newhker.dto.BannerDTO;
 import com.newhker.entity.Banner;
 import com.newhker.vo.AdminBannerVO;
 import com.newhker.exception.BusinessException;
+import com.newhker.i18n.I18nUtil;
 import com.newhker.mapper.BannerMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -64,7 +65,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
     public AdminBannerVO getBannerByIdForAdmin(Long bannerId) {
         Banner banner = getById(bannerId);
         if (banner == null) {
-            throw new BusinessException("Banner不存在");
+            throw new BusinessException(I18nUtil.getMessage("i18n.banner.notFound"));
         }
         
         AdminBannerVO vo = new AdminBannerVO();
@@ -95,7 +96,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
     public boolean auditBanner(Long bannerId, Integer auditStatus, Long auditUserId) {
         Banner banner = getById(bannerId);
         if (banner == null) {
-            throw new BusinessException("Banner不存在");
+            throw new BusinessException(I18nUtil.getMessage("i18n.banner.notFound"));
         }
         
         banner.setAuditStatus(auditStatus);
@@ -111,11 +112,11 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
     public boolean publishBanner(Long bannerId) {
         Banner banner = getById(bannerId);
         if (banner == null) {
-            throw new BusinessException("Banner不存在");
+            throw new BusinessException(I18nUtil.getMessage("i18n.banner.notFound"));
         }
         
         if (banner.getAuditStatus() != 1) {
-            throw new BusinessException("Banner未通过审核，无法发布");
+            throw new BusinessException(I18nUtil.getMessage("i18n.banner.notApproved"));
         }
         
         banner.setPublishStatus(1);
@@ -130,7 +131,7 @@ public class BannerService extends ServiceImpl<BannerMapper, Banner> {
     public boolean offlineBanner(Long bannerId) {
         Banner banner = getById(bannerId);
         if (banner == null) {
-            throw new BusinessException("Banner不存在");
+            throw new BusinessException(I18nUtil.getMessage("i18n.banner.notFound"));
         }
         
         banner.setPublishStatus(2);

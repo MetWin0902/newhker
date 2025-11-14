@@ -1,6 +1,7 @@
 package com.newhker.controller.mini;
 
 import com.newhker.common.Result;
+import com.newhker.i18n.I18nUtil;
 import com.newhker.utils.MinioUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,7 +37,7 @@ public class MiniUploadController {
             return Result.success(url);
         } catch (Exception e) {
             log.error("文件上传失败", e);
-            return Result.error("文件上传失败");
+            return Result.error(I18nUtil.getMessage("i18n.upload.failed"));
         }
     }
 }

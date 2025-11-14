@@ -12,6 +12,7 @@ import com.newhker.entity.Module;
 import com.newhker.entity.UserCollect;
 import com.newhker.entity.UserLike;
 import com.newhker.exception.BusinessException;
+import com.newhker.i18n.I18nUtil;
 import com.newhker.mapper.ArticleMapper;
 import com.newhker.vo.AdminArticleVO;
 import com.newhker.vo.ArticleDetailVO;
@@ -124,7 +125,7 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
     public AdminArticleVO getArticleByIdForAdmin(Long articleId) {
         Article article = getById(articleId);
         if (article == null) {
-            throw new BusinessException("文章不存在");
+            throw new BusinessException(I18nUtil.getMessage("i18n.article.notFound"));
         }
         
         AdminArticleVO vo = new AdminArticleVO();
@@ -138,7 +139,7 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
     public ArticleDetailVO getArticleDetail(Long articleId, Long userId) {
         Article article = getById(articleId);
         if (article == null || article.getPublishStatus() != 1) {
-            throw new BusinessException("文章不存在或已下架");
+            throw new BusinessException(I18nUtil.getMessage("i18n.article.notFoundOrOffline"));
         }
         
         ArticleDetailVO vo = new ArticleDetailVO();
@@ -192,7 +193,7 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
     public boolean auditArticle(Long articleId, Integer auditStatus, String auditRemark, Long auditUserId) {
         Article article = getById(articleId);
         if (article == null) {
-            throw new BusinessException("文章不存在");
+            throw new BusinessException(I18nUtil.getMessage("i18n.article.notFound"));
         }
         
         article.setAuditStatus(auditStatus);
@@ -209,11 +210,11 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
     public boolean publishArticle(Long articleId) {
         Article article = getById(articleId);
         if (article == null) {
-            throw new BusinessException("文章不存在");
+            throw new BusinessException(I18nUtil.getMessage("i18n.article.notFound"));
         }
         
         if (article.getAuditStatus() != 1) {
-            throw new BusinessException("文章未通过审核，无法发布");
+            throw new BusinessException(I18nUtil.getMessage("i18n.article.notApproved"));
         }
         
         article.setPublishStatus(1);
@@ -228,7 +229,7 @@ public class ArticleService extends ServiceImpl<ArticleMapper, Article> {
     public boolean offlineArticle(Long articleId) {
         Article article = getById(articleId);
         if (article == null) {
-            throw new BusinessException("文章不存在");
+            throw new BusinessException(I18nUtil.getMessage("i18n.article.notFound"));
         }
         
         article.setPublishStatus(2);

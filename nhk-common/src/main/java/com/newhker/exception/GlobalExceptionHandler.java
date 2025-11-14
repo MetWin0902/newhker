@@ -1,6 +1,7 @@
 package com.newhker.exception;
 
 import com.newhker.common.Result;
+import com.newhker.i18n.I18nUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -50,6 +51,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public Result<?> handleException(Exception e) {
         log.error("系统异常：", e);
-        return Result.error("系统异常，请稍后重试");
+        return Result.error(I18nUtil.getMessage("i18n.systemError"));
     }
 }
