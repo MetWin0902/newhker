@@ -9,8 +9,6 @@ import com.newhker.dto.ArticleDTO;
 import com.newhker.dto.ArticleQueryDTO;
 import com.newhker.entity.Article;
 import com.newhker.entity.Module;
-import com.newhker.entity.UserCollect;
-import com.newhker.entity.UserLike;
 import com.newhker.exception.BusinessException;
 import com.newhker.i18n.I18nUtil;
 import com.newhker.mapper.ArticleMapper;
@@ -25,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**

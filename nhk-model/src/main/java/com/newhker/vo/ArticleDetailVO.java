@@ -2,7 +2,6 @@ package com.newhker.vo;
 
 import lombok.Data;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * 文章详情VO
